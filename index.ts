@@ -3,7 +3,9 @@ import * as Router from 'koa-router'
 import * as Body from 'koa-body'
 import * as Logger from 'koa-logger'
 
+import axios, { AxiosResponse } from 'axios'
 import * as fs from 'fs'
+import * as crypto from 'crypto'
 
 const pub = fs.readFileSync('./public.pem').toString()
 const priv = fs.readFileSync('./private.pem').toString()
@@ -27,15 +29,68 @@ const user = (origin: string, uname: string) => ({
 const main = async () => {
   const app = new Koa()
   app.use(Logger())
+  app.use(async (_, next) => {
+    try {
+      console.log(_.path)
+      await next()
+
+    } catch (e) {
+      console.error(e)
+    }
+  })
 
   const router = new Router()
 
   router.all('/@:uname/inbox', require('koa-bodyreceiver'), (ctx) => {
     const d = Date.now()
-    fs.writeFileSync(`./inbox/${d}-${ctx.params.uname}-body.json`, ctx.request.body)
+    const b = JSON.parse(ctx.request.body)
+    fs.writeFileSync(`./inbox/${d}-${ctx.params.uname}-body`, ctx.request.body)
+    fs.writeFileSync(`./inbox/${d}-${ctx.params.uname}-body.json`, JSON.stringify(b, null, 4))
     fs.writeFileSync(`./inbox/${d}-${ctx.params.uname}-headers.json`, JSON.stringify(ctx.request.headers, null, 2))
     ctx.status = 201
     return
+  })
+
+  router.post('/@:uname/follow/:acct', async (ctx) => {
+    const {uname: localUname, acct} = ctx.params
+    const [remoteUname, remoteHost] = acct.split('acct:')[1].split('@')
+
+    const u = user(`https://${ctx.host}`, localUname)
+
+    const headers = {
+      date: (new Date()).toUTCString(),
+      host: remoteHost
+    } as any
+    const sign: string = ((requestTarget: string, headers: {[T:string]: string}) => {
+      const source = [
+        `(request-target): ${requestTarget}`,
+        ...Object.entries(headers).map(([k, v]) => `${k.toLowerCase()}: ${v}`)
+      ].join('\n')
+
+      const s = crypto.createSign('RSA-SHA256')
+      s.write(source)
+      return s.sign(priv, 'base64')
+    })('post /users/otofune/inbox', headers)
+    headers.signature = `keyId="${u.publicKey.id}",headers="(request-target) ${Object.keys(headers).map(v => v.toLowerCase()).join(' ')}",signature="${sign}"`
+
+    const d = {
+      "@context": "https://www.w3.org/ns/activitystreams",
+    
+      "id": `https://${ctx.host}/${Date.now()}`,
+      "type": "Follow",
+      "actor": u.id,
+      "object": "https://md.otofune.net/users/otofune",
+    }
+
+    let res: AxiosResponse
+    try {
+      res = await axios.post('https://md.otofune.net/users/otofune/inbox', d, {headers})
+    } catch (e) {
+      res = e.response
+    }
+
+    ctx.status = res.status
+    ctx.body = res.data
   })
 
   router.get('/@:uname', (ctx) => {

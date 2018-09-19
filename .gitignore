@@ -1,4 +1,6 @@
 node_modules
-inbox/*.json
+!inbox/.gitkeep
+inbox/*
 *.pem
 *.js
+yarn-error.log
