@@ -1,7 +1,28 @@
-import Koa from 'koa'
-import Router from 'koa-router'
-import Body from 'koa-body'
-import Logger from 'koa-logger'
+import * as Koa from 'koa'
+import * as Router from 'koa-router'
+import * as Body from 'koa-body'
+import * as Logger from 'koa-logger'
+
+import * as fs from 'fs'
+
+const pub = fs.readFileSync('./public.pem').toString()
+const priv = fs.readFileSync('./private.pem').toString()
+
+const user = (origin: string, uname: string) => ({
+  "@context": [
+      "https://www.w3.org/ns/activitystreams",
+      "https://w3id.org/security/v1"
+  ],
+  "id": `${origin}/@${uname}`,
+  "type": "Person",
+  "preferredUsername": uname,
+  "inbox": `${origin}/@${uname}/inbox`,
+  "publicKey": {
+      "id": `${origin}/@${uname}#key`,
+      "owner": `${origin}/@${uname}`,
+      "publicKeyPem": pub
+  }
+})
 
 const main = async () => {
   const app = new Koa()
@@ -9,15 +30,17 @@ const main = async () => {
 
   const router = new Router()
 
-  router.all('/@fake3/inbox', Body(), (ctx) => {
-    console.dir(ctx.body)
+  router.all('/@:uname/inbox', require('koa-bodyreceiver'), (ctx) => {
+    const d = Date.now()
+    fs.writeFileSync(`./inbox/${d}-${ctx.params.uname}-body.json`, ctx.request.body)
+    fs.writeFileSync(`./inbox/${d}-${ctx.params.uname}-headers.json`, JSON.stringify(ctx.request.headers, null, 2))
     ctx.status = 201
-    return {}
+    return
   })
 
-  router.get('/@fake3', (ctx) => {
+  router.get('/@:uname', (ctx) => {
     ctx.set('Content-Type', 'application/activity+json')
-    ctx.body = require('fs').readFileSync('./fake3.json').toString()
+    ctx.body = user(`https://${ctx.host}`, ctx.params.uname)
   })
 
   router.get('/.well-known/host-meta', (ctx) => {
@@ -31,14 +54,22 @@ const main = async () => {
 
   router.get('/.well-known/webfinger', (ctx) => {
     ctx.set('Content-Type', 'application/activity+json')
+    const [uname, host] = ctx.query.resource.split('acct:')[1].split('@')
+
+    if (host !== ctx.host) {
+      console.log(`${host} isn't match ${ctx.host}`)
+      ctx.status = 400
+      return
+    }
+
     ctx.body = {
       "subject": `${ctx.query.resource}`,
-    
+
       "links": [
         {
           "rel": "self",
           "type": "application/activity+json",
-          "href": "https://a223ccf9.ngrok.io/@fake3"
+          "href": `https://${ctx.host}/@${uname}` 
         }
       ]
     }
