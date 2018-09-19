@@ -43,15 +43,6 @@ const user = (origin: string, uname: string) => ({
 const main = async () => {
   const app = new Koa()
   app.use(Logger())
-  app.use(async (_, next) => {
-    try {
-      console.log(_.path)
-      await next()
-
-    } catch (e) {
-      console.error(e)
-    }
-  })
 
   const router = new Router()
 
