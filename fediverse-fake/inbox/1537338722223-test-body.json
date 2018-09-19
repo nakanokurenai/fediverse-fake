@@ -1,0 +1,79 @@
+{
+    "@context": [
+        "https://www.w3.org/ns/activitystreams",
+        "https://w3id.org/security/v1",
+        {
+            "manuallyApprovesFollowers": "as:manuallyApprovesFollowers",
+            "sensitive": "as:sensitive",
+            "movedTo": {
+                "@id": "as:movedTo",
+                "@type": "@id"
+            },
+            "Hashtag": "as:Hashtag",
+            "ostatus": "http://ostatus.org#",
+            "atomUri": "ostatus:atomUri",
+            "inReplyToAtomUri": "ostatus:inReplyToAtomUri",
+            "conversation": "ostatus:conversation",
+            "toot": "http://joinmastodon.org/ns#",
+            "Emoji": "toot:Emoji",
+            "focalPoint": {
+                "@container": "@list",
+                "@id": "toot:focalPoint"
+            },
+            "featured": {
+                "@id": "toot:featured",
+                "@type": "@id"
+            },
+            "schema": "http://schema.org#",
+            "PropertyValue": "schema:PropertyValue",
+            "value": "schema:value"
+        }
+    ],
+    "id": "https://md.otofune.net/users/otofune/statuses/100751030418148412/activity",
+    "type": "Create",
+    "actor": "https://md.otofune.net/users/otofune",
+    "published": "2018-09-19T06:32:01Z",
+    "to": [
+        "https://md.otofune.net/users/otofune/followers"
+    ],
+    "cc": [
+        "https://mstdn.rinsuki.net/users/rinsuki"
+    ],
+    "object": {
+        "id": "https://md.otofune.net/users/otofune/statuses/100751030418148412",
+        "type": "Note",
+        "summary": null,
+        "inReplyTo": "https://mstdn.rinsuki.net/users/rinsuki/statuses/100751028542102580",
+        "published": "2018-09-19T06:32:01Z",
+        "url": "https://md.otofune.net/@otofune/100751030418148412",
+        "attributedTo": "https://md.otofune.net/users/otofune",
+        "to": [
+            "https://md.otofune.net/users/otofune/followers"
+        ],
+        "cc": [
+            "https://mstdn.rinsuki.net/users/rinsuki"
+        ],
+        "sensitive": false,
+        "atomUri": "https://md.otofune.net/users/otofune/statuses/100751030418148412",
+        "inReplyToAtomUri": "https://mstdn.rinsuki.net/users/rinsuki/statuses/100751028542102580",
+        "conversation": "tag:md.otofune.net,2018-09-19:objectId=1580:objectType=Conversation",
+        "content": "<p><span class=\"h-card\"><a href=\"https://mstdn.rinsuki.net/@rinsuki\" class=\"u-url mention\">@<span>rinsuki</span></a></span> <a href=\"https://github.com/nakanokurenai/fediverse-fake\" rel=\"nofollow noopener\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"ellipsis\">github.com/nakanokurenai/fediv</span><span class=\"invisible\">erse-fake</span></a> （ゴミ）</p>",
+        "contentMap": {
+            "en": "<p><span class=\"h-card\"><a href=\"https://mstdn.rinsuki.net/@rinsuki\" class=\"u-url mention\">@<span>rinsuki</span></a></span> <a href=\"https://github.com/nakanokurenai/fediverse-fake\" rel=\"nofollow noopener\" target=\"_blank\"><span class=\"invisible\">https://</span><span class=\"ellipsis\">github.com/nakanokurenai/fediv</span><span class=\"invisible\">erse-fake</span></a> （ゴミ）</p>"
+        },
+        "attachment": [],
+        "tag": [
+            {
+                "type": "Mention",
+                "href": "https://mstdn.rinsuki.net/users/rinsuki",
+                "name": "@rinsuki@mstdn.rinsuki.net"
+            }
+        ]
+    },
+    "signature": {
+        "type": "RsaSignature2017",
+        "creator": "https://md.otofune.net/users/otofune#main-key",
+        "created": "2018-09-19T06:32:01Z",
+        "signatureValue": "QX0sIHZujhQgQ0/z5GCX9haFaFvV5WHpVsK7ZwOHNvN3c6rdPDxjioM/5DvBdJFqQ3X4tot/xdS7jPk7wklBqxwvvtMDptHGwr/12W2ARHvU2T89j/Dh6SKPUIH/DtK5lFwxIvYbHW9qZ1bBK1B5ay8AOhKgpQP8jrg/4rZvu+UWuhZ3pcf4kW4D46xOJA1RBj5FYbK3ZsHyuCE53fKlSeBuuMPuWGFkNcSN33rN8L+4ZBMQSRa3axDqYGv15kvYOIl/R7OVOWDWSaNgRV04DSgopYqaxE/kwHN9FvCF6JpCwvE4NzYrIhZ2qPMiHu18BU4/y2CK+SGmRsmleyfanQ=="
+    }
+}

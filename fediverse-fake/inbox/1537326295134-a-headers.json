@@ -1,0 +1,13 @@
+{
+  "user-agent": "http.rb/3.2.0 (Mastodon/2.5.0; +https://md.otofune.net/)",
+  "host": "b0b1be05.ngrok.io",
+  "date": "Wed, 19 Sep 2018 03:04:54 GMT",
+  "accept-encoding": "gzip",
+  "digest": "SHA-256=YhmIA0b0+rVbjDcgxqYhxFrBPU8FTs5qOTM8OAAVJ5E=",
+  "content-type": "application/activity+json",
+  "signature": "keyId=\"https://md.otofune.net/users/otofune#main-key\",algorithm=\"rsa-sha256\",headers=\"(request-target) host date digest content-type\",signature=\"JQfpHH3zTlKQwibnv6Qc9fvA5yJj5zOgQmp5vAmVQTounFtQ06dKoBTBVN+L1PQ2iXZMDODOsfh0zUFsLk28mr5tMNhKFSULfcAyvyvxK/VBunzv/Mb8KDtt93nPDEEAkKqGiJzv4dRK7qjKY7vFTqly8SbhefTPUE4+c/rfQh/s2F4izsZMDJA7p+KcOBVFxJr+zprA35DbImsPff1Skq/RqGByYU1OHa/d8EhzKCvWAWrWQ38mtdU17MOVBjGVQXE15Vdvd+327hBclH7KSaKs2kGA/4ve2aHG/HSh1C2POCUvkBKB2HdkqucVfqj0Mwmc3CYXxnXByl3lm/EoNA==\"",
+  "connection": "close",
+  "content-length": "1309",
+  "x-forwarded-proto": "https",
+  "x-forwarded-for": "150.95.185.129"
+}
