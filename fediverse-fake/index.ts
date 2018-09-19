@@ -6,9 +6,23 @@ import * as Logger from 'koa-logger'
 import axios, { AxiosResponse } from 'axios'
 import * as fs from 'fs'
 import * as crypto from 'crypto'
+import { URL } from 'url';
 
 const pub = fs.readFileSync('./public.pem').toString()
 const priv = fs.readFileSync('./private.pem').toString()
+
+const resolvers = {
+  async remoteUser (acct: string) {
+    const [_, host] = acct.split('acct:')[1].split('@')
+    const wf = await axios.get(`https://${host}/.well-known/webfinger?resource=${acct}`)
+    const link = wf.data.links.filter((v: any) => v.rel === 'self')[0]
+    return axios.get(link.href, {
+      headers: {
+        'Accept': 'application/activity+json'
+      }
+    }).then(v => v.data)
+  }
+}
 
 const user = (origin: string, uname: string) => ({
   "@context": [
@@ -57,9 +71,13 @@ const main = async () => {
 
     const u = user(`https://${ctx.host}`, localUname)
 
+    const ru = await resolvers.remoteUser(acct)
+
+    const inboxUrl = new URL(ru.inbox)
+
     const headers = {
       date: (new Date()).toUTCString(),
-      host: remoteHost
+      host: inboxUrl.host
     } as any
     const sign: string = ((requestTarget: string, headers: {[T:string]: string}) => {
       const source = [
@@ -70,7 +88,7 @@ const main = async () => {
       const s = crypto.createSign('RSA-SHA256')
       s.write(source)
       return s.sign(priv, 'base64')
-    })('post /users/otofune/inbox', headers)
+    })(`post ${inboxUrl.pathname}`, headers)
     headers.signature = `keyId="${u.publicKey.id}",headers="(request-target) ${Object.keys(headers).map(v => v.toLowerCase()).join(' ')}",signature="${sign}"`
 
     const d = {
@@ -79,12 +97,12 @@ const main = async () => {
       "id": `https://${ctx.host}/${Date.now()}`,
       "type": "Follow",
       "actor": u.id,
-      "object": "https://md.otofune.net/users/otofune",
+      "object": ru.id
     }
 
     let res: AxiosResponse
     try {
-      res = await axios.post('https://md.otofune.net/users/otofune/inbox', d, {headers})
+      res = await axios.post(ru.inbox, d, {headers})
     } catch (e) {
       res = e.response
     }
