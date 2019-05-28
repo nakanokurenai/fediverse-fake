@@ -1,0 +1,14 @@
+{
+  "name": "slack-emoji-suppon",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node ."
+  },
+  "dependencies": {
+    "@types/node": "^12.0.2",
+    "io-ts": "^1.8.6",
+    "ts-node": "^8.2.0",
+    "typescript": "^3.4.5"
+  }
+}
