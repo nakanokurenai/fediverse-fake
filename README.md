@@ -1,3 +1,4 @@
-sandbox :sandal:
+sandbox
 ===
-My purplish sandbox.
+
+![](./omocha_sunaba.png)
