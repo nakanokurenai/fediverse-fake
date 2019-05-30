@@ -7,8 +7,8 @@
     if (!app) console.error(message)
     app.innerText = message
   }
-  function to () {
-    return location.pathname + location.search
+  function to (pathname = location.pathname) {
+    return pathname + location.search
   }
   function authorize () {
     if (!document.referrer) {
@@ -17,7 +17,7 @@
     }
     const ref = new URL(document.referrer)
     localStorage.setItem(REFERRER_ORIGIN_KEY, ref.origin)
-    const goto = new URL(to(), SEA_ORIGIN)
+    const goto = new URL(to('/oauth/authorize'), SEA_ORIGIN)
     location.assign(goto)
   }
   function callback () {
@@ -32,14 +32,14 @@
 
   const { pathname } = document.location
   switch (pathname) {
-    case '/oauth/authorize':
+    case '/.netlify/functions/authorize':
       authorize()
       break
     case '/callback':
       callback()
       break
-    case '/oauth/token':
-      // Netlify Functions でどうにか.
+    case '/.netlify/functions/token':
+      // Netlify Functions 側で完結させる
       break
     default:
       setMessage('馬鹿な真似はやめろ.')
