@@ -18,7 +18,7 @@
     const ref = new URL(document.referrer)
     localStorage.setItem(REFERRER_ORIGIN_KEY, ref.origin)
     const goto = new URL(to(), SEA_ORIGIN)
-    location.href.assign(goto)
+    location.assign(goto)
   }
   function callback () {
     const refOrigin = localStorage.getItem(REFERRER_ORIGIN_KEY)
@@ -27,7 +27,7 @@
       return
     }
     const goto = new URL(to(), refOrigin)
-    location.href.assign(goto)
+    location.assign(goto)
   }
 
   const { pathname } = document.location
@@ -37,6 +37,9 @@
       break
     case '/callback':
       callback()
+      break
+    case '/oauth/token':
+      // Netlify Functions でどうにか.
       break
     default:
       setMessage('馬鹿な真似はやめろ.')
