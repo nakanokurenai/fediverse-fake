@@ -1,5 +1,3 @@
-'use strict'
-
 (async () => {
   const REFERRER_ORIGIN_KEY = 'MPSCG_REF'
   const SEA_ORIGIN = 'https://c.linkage.community'
