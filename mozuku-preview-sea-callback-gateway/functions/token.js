@@ -1,7 +1,8 @@
 // CORS つきでリダイレクトさせるだけ
 const SEA_ORIGIN = 'https://c.linkage.community'
 
-exports.handler = (_,_,callback) => {
+exports.handler = (...args) => {
+  const callback = args.pop()
   callback(null, {
     statusCode: 308,
     headers: {
