@@ -1,0 +1,10 @@
+{
+  "name": "mozuku-preview-sea-callback-gateway",
+  "private": true,
+  "scripts": {
+    "start": "netlify dev --dir=$(pwd) --functions=functions --port=1234"
+  },
+  "dependencies": {
+    "netlify-cli": "^2.11.19"
+  }
+}

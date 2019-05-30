@@ -5,6 +5,7 @@ exports.handler = (...args) => {
   const callback = args.pop()
   callback(null, {
     statusCode: 308,
+    body: '',
     headers: {
       'Location': SEA_ORIGIN + '/oauth/token',
       'Access-Control-Allow-Origin': '*',
