@@ -29,6 +29,9 @@
     const goto = new URL(to(), refOrigin)
     location.assign(goto)
   }
+  function redirectToSeaTop () {
+    location.assign(SEA_ORIGIN)
+  }
 
   const { pathname } = document.location
   switch (pathname) {
@@ -40,6 +43,9 @@
       break
     case '/.netlify/functions/token':
       // Netlify Functions 側で完結させる
+      break
+    case '/':
+      redirectToSeaTop()
       break
     default:
       setMessage('馬鹿な真似はやめろ.')
