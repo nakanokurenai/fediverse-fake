@@ -1,0 +1,16 @@
+{
+  "name": "functions-nack",
+  "main": "index.js",
+  "license": "UNLISENCED",
+  "private": true,
+  "devDependencies": {
+    "firebase-tools": "^7.6.1"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "firebase-admin": "^8.6.1",
+    "firebase-functions": "^3.3.0"
+  }
+}
